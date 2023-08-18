@@ -14,7 +14,7 @@ java {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            artifactId = 'network-lib'
+            artifactId = 'halowing-network-lib'
             from components.java
             versionMapping {
             	usage('java-api') {
@@ -62,7 +62,7 @@ dependencies {
 	// https://mvnrepository.com/artifact/commons-net/commons-net
 	compileOnly 'commons-net:commons-net:3.9.0'
 
-	implementation 'com.halowing.lib:base-lib:0.0.1-SNAPSHOT'
+	implementation 'com.halowing.lib:halowing-base-lib:0.0.1-SNAPSHOT'
 	
 	// https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
 	compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
