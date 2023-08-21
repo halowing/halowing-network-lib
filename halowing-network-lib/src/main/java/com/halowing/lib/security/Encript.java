@@ -6,7 +6,7 @@ import java.security.NoSuchAlgorithmException;
 
 import org.apache.commons.net.util.Base64;
 
-import com.halowing.lib.exception.SimpleRuntimeException;
+import com.halowing.lib.exception.DefaultApplicationException;
 
 
 public class Encript {
@@ -17,7 +17,7 @@ public class Encript {
 		if(password == null ) return null;
 		
 		if(salt == null) {
-			throw new SimpleRuntimeException("salt can't be null1.");
+			throw new DefaultApplicationException("salt can't be null1.");
 		}
 		
 		MessageDigest md = MessageDigest.getInstance(ENC_TYPE);
