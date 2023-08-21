@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.halowing.lib.exception.SimpleRuntimeException;
 import com.halowing.lib.string.StringUtility;
+import com.halowing.lib.web.exception.DefaultWebApplicationException;
 
 
 
@@ -23,6 +23,8 @@ public class ApiKeyFilter implements Filter{
 	private final Logger log = LoggerFactory.getLogger(ApiKeyFilter.class);
 	
 	private final static String HEADER_NAME = "Api-key";
+
+	private static final int HTTP_STATUS_UNAUTHORIZED_ERROR = 401;
 	
 	private final ApiKeyService service;
 	
@@ -69,13 +71,13 @@ public class ApiKeyFilter implements Filter{
 			
 			
 			if(headerName == null )
-				throw new SimpleRuntimeException(" Api-key is not present ");
+				throw new DefaultWebApplicationException(HTTP_STATUS_UNAUTHORIZED_ERROR, " Api-key is not present ");
 			
 			if( StringUtility.isBlank(value)  )
-				throw new SimpleRuntimeException("value of Api-key is empty.");
+				throw new DefaultWebApplicationException(HTTP_STATUS_UNAUTHORIZED_ERROR, "value of Api-key is empty.");
 			
 			if(!service.hasApiKey(value))
-				throw new SimpleRuntimeException("It is not granted to access this system. Api-key="+value);
+				throw new DefaultWebApplicationException(HTTP_STATUS_UNAUTHORIZED_ERROR, "It is not granted to access this system. Api-key="+value);
 		}
 		chain.doFilter(request, response);
 	}
