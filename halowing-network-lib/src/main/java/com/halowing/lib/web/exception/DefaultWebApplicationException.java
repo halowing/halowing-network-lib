@@ -1,41 +1,39 @@
 package com.halowing.lib.web.exception;
 
-import com.halowing.lib.exception.SimpleApplicationException;
-
-public class WebApplicationException extends RuntimeException {
+public class DefaultWebApplicationException extends RuntimeException  {
 
 	private static final long serialVersionUID = 6630247127070485289L;
 	
 	private final int httpStatus;
 	
-	public WebApplicationException() {
-		super("Internal Server error.");
-		this.httpStatus = 500;
+	public DefaultWebApplicationException() {
+		super(WebApplicationException.HTTP_STATUS_INTERNAL_SERVER_ERROR_MESSAGE);
+		this.httpStatus = WebApplicationException.HTTP_STATUS_INTERNAL_SERVER_ERROR;
 	}
 	
-	public WebApplicationException(SimpleApplicationException e) {
+	public DefaultWebApplicationException(Throwable e) {
 		super(e);
-		this.httpStatus = 500;
+		this.httpStatus = WebApplicationException.HTTP_STATUS_INTERNAL_SERVER_ERROR;
 	}
 	
-	public WebApplicationException(SimpleApplicationException e, int httpStatus) {
+	public DefaultWebApplicationException(Throwable e, int httpStatus) {
 		super(e);
 		this.httpStatus = httpStatus;
 	}
 	
-	public WebApplicationException(SimpleApplicationException e, int httpStatus, String message) {
+	public DefaultWebApplicationException(Throwable e, int httpStatus, String message) {
 		super(message, e);
 		this.httpStatus = httpStatus;
 	}
 	
-	public WebApplicationException(int httpStatus, String message) {
+	public DefaultWebApplicationException(int httpStatus, String message) {
 		super(message);
 		this.httpStatus = httpStatus;
 	}
 	
-	public WebApplicationException(String message) {
+	public DefaultWebApplicationException(String message) {
 		super(message);
-		this.httpStatus = 500;
+		this.httpStatus = WebApplicationException.HTTP_STATUS_INTERNAL_SERVER_ERROR;
 	}
 
 	public int getHttpStatus() {
