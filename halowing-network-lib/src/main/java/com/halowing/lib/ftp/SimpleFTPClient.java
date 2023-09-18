@@ -93,7 +93,14 @@ public class SimpleFTPClient {
 		login();
 		
 		try {
-			upload1(source, target);
+			
+			source = source.normalize().toAbsolutePath();
+			target = target.normalize();
+			
+			Path parent = target.getParent();
+			changeDirectory(parent);
+			
+			upload1(source, target, 0);
 		} catch (Exception e) {
 			throw e;
 		} finally {
@@ -102,7 +109,14 @@ public class SimpleFTPClient {
 		}
 	}
 	
-	public void upload(Collection<Path> sources, Path target) throws Exception {
+	/**
+	 * 여러개의 파일을 업로드
+	 * 
+	 * @param sources
+	 * @param target
+	 * @throws Exception
+	 */
+	public void upload(Collection<Path> sourcesFilePaths, Path uploadDirectoryPath) throws Exception {
 		
 		connect();
 		
@@ -112,10 +126,14 @@ public class SimpleFTPClient {
 		
 		try {
 			
-			sources.parallelStream()
+			final Path _uploadDirectoryPath = uploadDirectoryPath.normalize();
+			changeDirectory(_uploadDirectoryPath);
+			
+			sourcesFilePaths.stream()
 			.forEach(source -> {
 				try {
-					upload1(source, target);
+					Path target = _uploadDirectoryPath.resolve(source.getFileName()).normalize();
+					upload1(source.normalize().toAbsolutePath(), target, 0);
 				} catch (Exception e) {
 					log.error(e.getLocalizedMessage());
 					error.add(source);
@@ -162,9 +180,6 @@ public class SimpleFTPClient {
 		}
 	}
 	
-	private void upload1(Path source, Path target) {
-		upload1(source, target, 0);
-	}
 	private void upload1(Path source, Path target, int retryCount) {
 		if(retryCount > RETRY_LIMIT)
 		{
@@ -177,27 +192,12 @@ public class SimpleFTPClient {
 			} catch (InterruptedException e) {
 				log.error(e.getLocalizedMessage());
 			}
-		}else {
-			source = source.toAbsolutePath().normalize();
-			
-			System.out.println("source = "+source.toString());
-			
-			target = target.normalize();
-			
-			System.out.println("target = "+target.toString());
 		}
-		
-		
-		Path parent = target.getParent();
-		
-		changeDirectory(parent);
-		
 		
 		try (InputStream is = Files.newInputStream(source, StandardOpenOption.READ);)
 		{
 			String targetFileName = target.getFileName().toString();
 			log.debug("[FTP] TARGET FILE NAME = {}", targetFileName);
-			System.out.println("[FTP] TARGET FILE NAME = "+ targetFileName);
 			
 			ftpClient.storeFile(targetFileName, is);
 			is.close();
@@ -213,7 +213,7 @@ public class SimpleFTPClient {
 		path.forEach(it -> {
 			String dir = it.getFileName().toString();
 			
-			System.out.println("directory = "+ dir);
+			log.trace("directory = {}", dir);
 			
 			changeDirectory(dir, 0);
 		});
@@ -246,7 +246,16 @@ public class SimpleFTPClient {
 		
 	}
 	
+	/**
+	 * not 
+	 * 
+	 * @param <T>
+	 * @param source
+	 * @param target
+	 * @return
+	 */
 	public <T> Optional<T> download(Path source, Path target) {
+		// TODO : Download 기능 구현 필요.
 		
 		T rs = null;
 		
