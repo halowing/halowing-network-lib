@@ -41,20 +41,33 @@ publishing {
             	}
             } 
         }
+        
+        gpr(MavenPublication) {
+        	from components.java
+        }
     }
     
-//    repositories {
-//   	maven {
-//    		def releasesRepoUrl = layout.buildDirectory.dir('repos/releases')
-//    		def snapshotsRepoUrl = layout.buildDirectory.dir('repos/snapshots')
-//    		url = version.endWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl 
-//    	}
-//    }
+    repositories {
+   		maven {
+   			name = "GitHubPacakges"
+    		url = uri("https://maven.pkg.github.com/halowing/halowing-network-lib") 
+    		credentials {
+    			username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+    			password = project.findProperty("gpr.key")  ?: System.getenv("TOKEN")
+    		}
+    	}
+    }
 }
 
 repositories {
-	mavenLocal()
 	mavenCentral()
+	maven {
+		url = uri("https://maven.pkg.github.com/halowing/halowing-base-lib")
+		credentials {
+			username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+			password = project.findProperty("gpr.key")  ?: System.getenv("TOKEN")
+		}
+	}
 }
 
 dependencies {
