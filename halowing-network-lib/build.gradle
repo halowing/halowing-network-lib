@@ -60,6 +60,8 @@ publishing {
 }
 
 repositories {
+
+	mavenLocal()
 	mavenCentral()
 	maven {
 		url = uri("https://maven.pkg.github.com/halowing/halowing-base-lib")
@@ -75,7 +77,7 @@ dependencies {
 	// https://mvnrepository.com/artifact/commons-net/commons-net
 	compileOnly 'commons-net:commons-net:3.9.0'
 
-	compileOnly 'com.halowing.lib:halowing-base-lib:0.0.1-SNAPSHOT'
+	compileOnly 'com.halowing.lib:halowing-base-lib:0.0.3-SNAPSHOT'
 	
 	// https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
 	compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
