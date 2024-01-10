@@ -7,7 +7,7 @@ group = 'com.halowing.lib'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	sourceCompatibility = '1.8'
+	sourceCompatibility = '17'
 	withSourcesJar()
 }
 
