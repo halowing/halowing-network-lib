@@ -5,13 +5,13 @@ import java.util.ResourceBundle;
 
 import com.halowing.lib.exception.ApplicationException;
 
-public class SimpleWebApplicationException extends WebApplicationException {
+public final class SimpleWebApplicationException extends WebApplicationException {
 
 	private static final long serialVersionUID = 7972287346429164189L;
 	
 	private static final String MESSAGE_RESOURCE = "messages/messages";
 	
-	private static final ResourceBundle RESOURCE_BUNDLE_US     = ResourceBundle.getBundle(MESSAGE_RESOURCE, Locale.US);
+	private static final ResourceBundle RESOURCE_BUNDLE_DEFAULT     = ResourceBundle.getBundle(MESSAGE_RESOURCE);
 	private static final ResourceBundle LOCALE_RESOURCE_BUNDLE = ResourceBundle.getBundle(MESSAGE_RESOURCE, Locale.getDefault());
 	
 	private final int httpStatus;
@@ -56,8 +56,8 @@ public class SimpleWebApplicationException extends WebApplicationException {
 		this(HTTP_STATUS_INTERNAL_SERVER_ERROR, errorCode, args);
 	}
 	
-	protected static String getMessage( String errorCode, String[] args) {
-		return ApplicationException.getLocaleMessage(RESOURCE_BUNDLE_US, null, errorCode, args);
+	private static String getMessage( String errorCode, String[] args) {
+		return ApplicationException.getLocaleMessage(RESOURCE_BUNDLE_DEFAULT, null, errorCode, args);
 	}
 	
 	@Override
