@@ -53,7 +53,7 @@ publishing {
     
     repositories {
    		maven {
-   			name = "GitHubPacakges"
+   			name = "HalowingNetworkLibRepo"
     		url = uri("https://maven.pkg.github.com/halowing/halowing-network-lib") 
     		credentials {
     			username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_USERNAME")
@@ -66,8 +66,8 @@ publishing {
 repositories {
 
 	mavenCentral()
-	mavenLocal()
 	maven {
+		name = "HalowingBaseLibRepo"
 		url = uri("https://maven.pkg.github.com/halowing/halowing-base-lib")
 		credentials {
 			username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_USERNAME")
